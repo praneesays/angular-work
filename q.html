@@ -1,0 +1,119 @@
+<div class="space-y-8 p-6">
+
+  <!-- Create New Question -->
+  <div class="bg-white rounded-xl shadow p-6 space-y-4 border">
+    <h2 class="text-xl font-semibold">Create New Question</h2>
+    <div class="flex flex-col md:flex-row gap-2">
+      <input
+        type="text"
+        [(ngModel)]="newQuestion"
+        placeholder="Enter your question..."
+        class="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button
+        (click)="addQuestion(newQuestion)"
+        class="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-black transition"
+      >
+        + Add Question
+      </button>
+    </div>
+    <button
+      class="flex items-center gap-2 text-gray-700 mt-2 hover:underline"
+    >
+      📄 Import Questions from File
+    </button>
+  </div>
+
+  <!-- Question Templates -->
+  <div class="bg-white rounded-xl shadow p-6 border">
+    <h2 class="text-xl font-semibold mb-4">Question Templates</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+      <button
+        *ngFor="let question of predefinedQuestions"
+        (click)="addPredefinedQuestion(question)"
+        class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-md text-left"
+      >
+        {{ question }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Questions & Answers -->
+  <div class="bg-white rounded-xl shadow p-6 border">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold">Questions & Answers</h2>
+      <div class="flex gap-2">
+        <button
+          (click)="submitQuestions()"
+          [disabled]="questions.length === 0"
+          class="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-black transition disabled:opacity-50"
+        >
+          Submit Questions
+        </button>
+        <button
+          (click)="exportToExcel()"
+          [disabled]="questions.length === 0"
+          class="bg-white border px-4 py-2 rounded-md hover:bg-gray-100 transition disabled:opacity-50"
+        >
+          ⬇ Export to Excel
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="questions.length === 0" class="text-gray-500 text-center py-10">
+      No questions added yet. Create a new question or use a template above.
+    </div>
+
+    <div
+      *ngFor="let question of questions"
+      class="border rounded-lg p-4 mb-4 bg-gray-50"
+    >
+      <!-- Editing Mode -->
+      <div *ngIf="editingId === question.id" class="space-y-2">
+        <textarea
+          [(ngModel)]="editingText"
+          rows="3"
+          class="w-full border rounded-md p-2"
+        ></textarea>
+        <div class="flex gap-2">
+          <button
+            (click)="saveEdit()"
+            class="bg-blue-600 text-white px-4 py-1 rounded-md"
+          >
+            Save
+          </button>
+          <button
+            (click)="cancelEdit()"
+            class="bg-gray-300 px-4 py-1 rounded-md"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      <!-- View Mode -->
+      <div *ngIf="editingId !== question.id" class="flex justify-between">
+        <div>
+          <p><strong>Q:</strong> {{ question.text }}</p>
+          <div *ngIf="question.answer" class="mt-2 p-2 bg-blue-50 border-l-4 border-blue-400 rounded">
+            <p class="text-gray-700"><strong>A:</strong> {{ question.answer }}</p>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button
+            (click)="startEdit(question)"
+            class="bg-white border rounded-md p-2 hover:bg-gray-100"
+          >
+            ✏️
+          </button>
+          <button
+            (click)="deleteQuestion(question.id)"
+            class="bg-red-500 text-white rounded-md p-2 hover:bg-red-600"
+          >
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
