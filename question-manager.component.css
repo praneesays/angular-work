@@ -1,0 +1,48 @@
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.card-header h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.card-content {
+  margin-top: 1rem;
+}
+
+.question-card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.answer-box {
+  background-color: #e0f2fe;
+  padding: 0.5rem;
+  border-left: 4px solid #38bdf8;
+  margin-top: 0.5rem;
+  border-radius: 4px;
+}
+
+.edit-section textarea {
+  width: 100%;
+}
+
+.empty-text {
+  text-align: center;
+  color: #888;
+  padding: 2rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+input {
+  flex: 1;
+  padding: 0.5rem;
+}

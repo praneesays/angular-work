@@ -1,0 +1,80 @@
+<div class="space-y-6">
+
+  <!-- Add New Question -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Create New Question</h2>
+    </div>
+    <div class="card-content space-y-4">
+      <div class="flex space-x-2">
+        <input
+          type="text"
+          [(ngModel)]="newQuestion"
+          placeholder="Enter your question..."
+          (keyup.enter)="addQuestion(newQuestion)"
+        />
+        <button (click)="addQuestion(newQuestion)">+ Add Question</button>
+      </div>
+      <button>📄 Import Questions from File</button>
+    </div>
+  </div>
+
+  <!-- Predefined Questions -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Question Templates</h2>
+    </div>
+    <div class="card-content grid grid-cols-1 md:grid-cols-2 gap-2">
+      <button
+        *ngFor="let question of predefinedQuestions"
+        (click)="addPredefinedQuestion(question)"
+        class="template-btn"
+      >
+        {{ question }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Questions List -->
+  <div class="card">
+    <div class="card-header flex justify-between">
+      <h2>Questions & Answers</h2>
+      <div class="space-x-2">
+        <button (click)="submitQuestions()" [disabled]="questions.length === 0">Submit Questions</button>
+        <button (click)="exportToExcel()" [disabled]="questions.length === 0">⬇ Export to Excel</button>
+      </div>
+    </div>
+    <div class="card-content">
+      <div *ngIf="questions.length === 0" class="empty-text">
+        No questions added yet. Create a new question or use a template above.
+      </div>
+
+      <div *ngFor="let question of questions" class="question-card">
+        <div *ngIf="editingId === question.id" class="edit-section">
+          <textarea [(ngModel)]="editingText" rows="3"></textarea>
+          <div class="flex space-x-2">
+            <button (click)="saveEdit()">Save</button>
+            <button (click)="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+
+        <div *ngIf="editingId !== question.id">
+          <div class="flex justify-between">
+            <div>
+              <strong>Q:</strong> {{ question.text }}
+              <div *ngIf="question.answer" class="answer-box">
+                <strong>Answer:</strong>
+                <div>{{ question.answer }}</div>
+              </div>
+            </div>
+            <div class="flex space-x-2 ml-4">
+              <button (click)="startEdit(question)">✏️</button>
+              <button (click)="deleteQuestion(question.id)">🗑️</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
